@@ -1,50 +1,59 @@
-def validate_distribution(variables, probabilities):
-    if len(variables) != len(probabilities):
-        return False
 
-    if abs(sum(probabilities) -1) > 1e-9:
-        return False
+class ProbabilityDistribution:
 
-    for value in probabilities:
-        if value < 0:
-            return False
+    def __init__(self,distribution):
+        self.distribution = distribution
 
-    return True
+        probabilities = self.distribution.values()
 
+        if any(probability < 0 for probability in probabilities):
+            raise ValueError("Probabilities can not be negative")
 
-def expected_value(variables, probabilities):
-    if not validate_distribution(variables, probabilities):
-        raise ValueError("Invalid probability distribution")
+        if abs(sum(probabilities) -1) > 1e-9:
+            raise ValueError("Probabilities must sum to 1")
 
-    total = 0
+    def expected_value(self):
+        total = 0
+        for variables,probability in self.distribution.items():
+            total += variables*probability
+        return total
 
-    for i in range(len(variables)):
-        total += variables[i] * probabilities[i]
+    def variance(self):
+        total = 0
+        expected_value_squared = self.expected_value() ** 2
 
-    return total
+        for variable,probability in self.distribution.items():
+            total += (variable ** 2) * probability
 
+        return total - expected_value_squared
 
-def variance(variables, probabilities):
-    total = 0
-    expected_value_squared = expected_value(variables, probabilities) ** 2
+    def standard_deviation(self):
+        return self.variance()**0.5
 
-    for i in range(len(variables)):
-        total += (variables[i] ** 2) * probabilities[i]
+    def event_probability(self,event):
 
-    return total - expected_value_squared
+        total = 0
 
+        for variables,probability in self.distribution.items():
 
-def standard_deviation(variables, probabilities):
-    return variance(variables, probabilities) ** 0.5
+            if variables in event:
+                total +=probability
 
-def event_probability(variables,probabilities,event):
-    if not validate_distribution(variables,probabilities):
-        raise ValueError("Invalid probability distribution")
-    total = 0
-    for i in range(len(variables)):
-        if variables[i] in event:
-            total += probabilities[i]
-    return total
+        return total
 
-def complement_probability(variables,probabilities,event):
-    return 1 - event_probability(variables,probabilities,event)
+    def complement_probability(self,event):
+
+        return 1 - self.event_probability(event)
+
+    def conditional_probability(self,a,b):
+
+        common = [x for x in a if x in b]
+
+        common_probability = self.event_probability(common)
+
+        probability_of_b = self.event_probability(b)
+
+        if probability_of_b == 0:
+            raise ZeroDivisionError("Probability of B is zero ")
+        
+        return common_probability/probability_of_b
