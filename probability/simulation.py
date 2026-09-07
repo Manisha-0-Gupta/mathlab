@@ -3,14 +3,12 @@ import random
 # Experiment functions
 
 
-
 def roll_the_dice():
     return random.randint(1, 6)
 
 def even_die():
     result = roll_the_dice()
     return result%2 ==0
-
 
 
 # Simulation engine
@@ -26,7 +24,6 @@ def simulate(trials,experiment):
     probability = success_count/trials
       
     return success_count,trials,probability
-
 
 
 # Statistical Calculation
