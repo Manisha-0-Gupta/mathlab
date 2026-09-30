@@ -42,3 +42,14 @@ def gamma_function(x):
 
       return a*b*c
 
+def beta_function(alpha,beta):
+
+      if alpha <= 0 or beta <=0:
+            raise ValueError("Alpha and beta must be greater than zero")
+
+      return (
+            (gamma_function(alpha) *
+            gamma_function(beta)) /
+            gamma_function(alpha+beta)
+      )
+
