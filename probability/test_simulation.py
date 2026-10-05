@@ -1,5 +1,5 @@
 from probability.simulation import simulate
-
+import math
 
 def always_success():
       return True
@@ -19,23 +19,17 @@ def test_simulate_all_failure():
 
       assert result == (0,100,0.0)
 
-from probability.simulation import standard_error
+from probability.simulation import (estimate_probability,standard_error,confidence_interval)
 
+def test_estimate_probability():
+      assert math.isclose(estimate_probability(70,100),0.7)
 
 def test_standard_error():
-    result = standard_error((1667, 10000, 0.1667))
-
-    assert abs(result - 0.00373) < 0.00001
-
-    
-
-from probability.simulation import confidence_interval
-
+      assert math.isclose(standard_error(0.7,100),0.045825756949558406)
 
 def test_confidence_interval():
-    result = confidence_interval((1667, 10000, 0.1667))
-
-    lower, upper = result
-
-    assert abs(lower - 0.15924) < 0.00001
-    assert abs(upper - 0.17416) < 0.00001
+      result = confidence_interval(0.5,0.05)
+      lower = result[0]
+      upper = result[1]
+      assert math.isclose(lower,0.402)
+      assert math.isclose(upper,0.598)

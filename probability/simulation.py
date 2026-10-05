@@ -1,7 +1,11 @@
 import random
+# Random Number between 0 to 1
+
+def random_number():
+      return random.random()
+
 
 # Experiment functions
-
 
 def roll_the_dice():
     return random.randint(1, 6)
@@ -9,6 +13,8 @@ def roll_the_dice():
 def even_die():
     result = roll_the_dice()
     return result%2 ==0
+
+
 
 
 # Simulation engine
@@ -28,23 +34,21 @@ def simulate(trials,experiment):
 
 # Statistical Calculation
 
-
-def standard_error(simulation_result):
-
-    hit,trials,probability = simulation_result
-
-    return ((probability*(1-probability))/trials)**0.5
+def estimate_probability(hits,trials):
+      return hits/trials
 
 
-def confidence_interval(simulation_result):
+def standard_error(probability,trials):
+      return ((probability*(1-probability))/trials)**0.5
 
-    _,__,probability = simulation_result
-    se = standard_error(simulation_result)
 
-    lower_bound = probability - 2*se
-    upper_bound = probability + 2*se
+def confidence_interval(probability,std_error):
 
-    return lower_bound,upper_bound
+    lower_bound = probability - 1.96*std_error
+    upper_bound = probability + 1.96*std_error
+
+    return [lower_bound,upper_bound]
+
 
 
 

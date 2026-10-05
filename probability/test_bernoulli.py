@@ -62,3 +62,50 @@ assert math.isclose(result,1)
 
 result = distribution.cdf(2)
 assert math.isclose(result,1)
+
+
+# TEST-BERNOULLI-SIMULATION
+from probability.simulate_bernoulli import (bernoulli_event,bernoulli_simulation,ci_coverage,repeated_simulation)
+
+def test_bernoulli_event_success():
+      assert bernoulli_event(0.3,0.7) == 1
+
+def test_bernoulli_event_failure():
+      assert bernoulli_event(0.8,0.7) == 0
+
+def test_bernoulli_simulation_success():
+      result = bernoulli_simulation(10,0.7,lambda:0.3)
+
+      assert result['Trials'] == 10
+      assert result['Total_hits'] == 10
+
+def test_bernoulli_simulation_failure():
+      result = bernoulli_simulation(10, 0.5, lambda: 0.8)
+      assert result['Trials'] == 10
+      assert result['Total_hits'] == 0
+
+def test_repeated_simulation():
+      data = repeated_simulation(
+        5,
+        10,
+        0.5,
+        lambda: 0.3
+      )
+
+      assert len(data) == 5
+
+      for i in range(1, 6):
+            assert data[i]['Trials'] == 10
+            assert data[i]['Total_hits'] == 10
+
+def test_ci_coverage():
+      values = iter([0.3, 0.8] * 5)
+
+      result = ci_coverage(
+            experiments=5,
+            trials=2,
+            p=0.5,
+            random_number=lambda: next(values)
+            )
+
+      assert math.isclose(result, 1.0)      
