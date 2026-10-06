@@ -1,4 +1,4 @@
-from probability.simulation import simulate
+from probability.simulations.simulation import simulate
 import math
 
 def always_success():
@@ -19,7 +19,7 @@ def test_simulate_all_failure():
 
       assert result == (0,100,0.0)
 
-from probability.simulation import (estimate_probability,standard_error,confidence_interval)
+from probability.simulations.simulation import (estimate_probability,standard_error,confidence_interval)
 
 def test_estimate_probability():
       assert math.isclose(estimate_probability(70,100),0.7)

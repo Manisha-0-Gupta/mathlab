@@ -1,4 +1,4 @@
-from probability.simulation import (random_number,estimate_probability,standard_error,confidence_interval)
+from probability.simulations.simulation import (random_number,estimate_probability,standard_error,confidence_interval)
 
 
 def bernoulli_event(number,p):

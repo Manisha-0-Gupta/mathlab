@@ -1,4 +1,5 @@
 from probability.bernoulli import BernoulliDistribution
+
 import math
 def test_valid_probabilities():
  
@@ -65,7 +66,7 @@ assert math.isclose(result,1)
 
 
 # TEST-BERNOULLI-SIMULATION
-from probability.simulate_bernoulli import (bernoulli_event,bernoulli_simulation,ci_coverage,repeated_simulation)
+from probability.simulations.bernoulli_simulation import (bernoulli_event,bernoulli_simulation,ci_coverage,repeated_simulation)
 
 def test_bernoulli_event_success():
       assert bernoulli_event(0.3,0.7) == 1

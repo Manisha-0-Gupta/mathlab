@@ -75,3 +75,6 @@ def test_cdf():
       assert math.isclose(distribution.cdf(2),distribution.pmf(0)+distribution.pmf(1)+distribution.pmf(2))
       assert math.isclose(distribution.cdf(11),1)
       assert math.isclose(distribution.cdf(10),1)
+
+
+# TEST-BINOMIAL-SIMULATION
