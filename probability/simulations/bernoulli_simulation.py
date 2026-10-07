@@ -1,8 +1,8 @@
 from probability.simulations.simulation import (random_number,estimate_probability,standard_error,confidence_interval)
 
 
-def bernoulli_event(number,p):
-      if number < p:
+def bernoulli_event(random_number,p):
+      if random_number() < p:
             return 1
       return 0
 
@@ -10,8 +10,8 @@ def bernoulli_simulation(trials,p,random_number):
       hits = 0
 
       for _ in range(trials):
-            random_num = random_number()
-            hits += bernoulli_event(random_num,p)
+            
+            hits += bernoulli_event(random_number,p)
             
       estimated_probability = estimate_probability(hits,trials)
 

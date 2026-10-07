@@ -69,10 +69,10 @@ assert math.isclose(result,1)
 from probability.simulations.bernoulli_simulation import (bernoulli_event,bernoulli_simulation,ci_coverage,repeated_simulation)
 
 def test_bernoulli_event_success():
-      assert bernoulli_event(0.3,0.7) == 1
+      assert bernoulli_event(lambda:0.3,0.7) == 1
 
 def test_bernoulli_event_failure():
-      assert bernoulli_event(0.8,0.7) == 0
+      assert bernoulli_event(lambda:0.8,0.7) == 0
 
 def test_bernoulli_simulation_success():
       result = bernoulli_simulation(10,0.7,lambda:0.3)
@@ -110,3 +110,4 @@ def test_ci_coverage():
             )
 
       assert math.isclose(result, 1.0)      
+      
