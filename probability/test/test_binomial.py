@@ -78,3 +78,43 @@ def test_cdf():
 
 
 # TEST-BINOMIAL-SIMULATION
+
+from probability.simulations.binomial_simulation import (binomial_event,binomial_simulation,empirical_mean,empirical_variance)
+
+def test_binomial_event_success():
+
+      assert binomial_event(5,0.5,lambda:0.3) == 5
+
+def test_binomial_event_failure():
+      assert binomial_event(5,0.5,lambda:0.8) == 0
+
+def test_binomial_event():
+      values = iter([0.2,0.3,0.4,0.5,0.6,0.7,0.8])
+      assert binomial_event(7,0.5,lambda: next(values)) == 3
+
+def test_binomial_simulation():
+      value = iter([0.1,0.2,0.3,0.5,0.6,
+                  0.3,0.4,0.7,0.5,0.8,
+                  0.4,0.8,0.9,0.7,0.6,            
+      ])
+
+      assert binomial_simulation(3,5,0.5,lambda:next(value)) == [3,2,1]
+simulation_distribution = BinomialDistribution(10,0.3)
+import math
+import random
+
+data = binomial_simulation(10_000,10,0.3,random.random)
+
+def test_empirical_mean():
+      assert math.isclose(
+            empirical_mean(data),
+            simulation_distribution.expected_value(),
+            abs_tol=0.05
+      )
+
+def test_empirical_variance():
+      assert math.isclose(
+            empirical_variance(data),
+            simulation_distribution.variance(),
+            abs_tol=0.05
+      )
