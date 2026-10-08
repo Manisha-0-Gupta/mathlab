@@ -33,5 +33,8 @@ def empirical_variance(data):
 
       return total/len(data)
 
+def standard_error_of_mean(data):
+      standard_deviation = empirical_variance(data)**0.5
+      return standard_deviation/(len(data)**0.5)
 
 

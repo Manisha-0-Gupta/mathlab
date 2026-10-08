@@ -79,7 +79,10 @@ def test_cdf():
 
 # TEST-BINOMIAL-SIMULATION
 
-from probability.simulations.binomial_simulation import (binomial_event,binomial_simulation,empirical_mean,empirical_variance)
+from probability.simulations.binomial_simulation import (binomial_event,
+                                                         binomial_simulation,empirical_mean,
+                                                         empirical_variance,
+                                                         standard_error_of_mean)
 
 def test_binomial_event_success():
 
@@ -117,4 +120,13 @@ def test_empirical_variance():
             empirical_variance(data),
             simulation_distribution.variance(),
             abs_tol=0.05
+      )
+
+def test_standaed_error_of_mean():
+      theoretical_se = (
+            simulation_distribution.standard_deviation()/(len(data)**0.5)
+      )
+      assert math.isclose(
+            standard_error_of_mean(data),
+            theoretical_se,abs_tol = 0.001
       )
