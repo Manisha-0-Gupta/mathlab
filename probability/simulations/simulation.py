@@ -5,18 +5,6 @@ def random_number():
       return random.random()
 
 
-# Experiment functions
-
-def roll_the_dice():
-    return random.randint(1, 6)
-
-def even_die():
-    result = roll_the_dice()
-    return result%2 ==0
-
-
-
-
 # Simulation engine
 
 
@@ -50,5 +38,37 @@ def confidence_interval(probability,std_error):
     return [lower_bound,upper_bound]
 
 
+def empirical_mean(data):
+
+      return sum(data)/len(data)
+
+def empirical_variance(data):
+      total = 0
+      mean = empirical_mean(data)
+      for i in range(len(data)):
+            total += (data[i] - mean)**2
+
+      return total/len(data)
+
+def standard_error_of_mean(data):
+      standard_deviation = empirical_variance(data)**0.5
+      return standard_deviation/(len(data)**0.5)
+
+def empirical_pmf(data,k):
+      hit = 0 
+      for value in data:
+            if value == k:
+                  hit +=1
+
+      return hit/len(data)
+
+def empirical_cdf(data,k):
+
+      hit = 0
+      for value in data:
+            if value <=k:
+                  hit +=1
+
+      return hit/len(data)
 
 
