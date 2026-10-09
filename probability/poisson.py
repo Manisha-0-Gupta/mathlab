@@ -1,42 +1,40 @@
-from probability.utils import factorial
-
 import math
+
+from probability.utils import factorial
 
 
 class PoissonDistribution:
+    def __init__(self, lam):
+        if lam <= 0:
+            raise ValueError("Lambda must be greater than 0")
 
-      def __init__(self, lam):
-            if lam <= 0:
-                  raise ValueError("Lambda must be greater than 0")
+        self.lam = lam
 
-            self.lam = lam
+    def pmf(self, k):
+        if not isinstance(k, int) or k < 0:
+            raise ValueError("K should be non negative integer")
 
-      def pmf(self, k):
-            if not isinstance(k, int) or k < 0:
-                  raise ValueError("K should be non negative integer")
+        return (math.exp(-self.lam) * (self.lam**k)) / factorial(k)
 
-            return (math.exp(-self.lam) * (self.lam ** k)) / factorial(k)
+    def expected_value(self):
+        return self.lam
 
-      def expected_value(self):
-             return self.lam
+    def variance(self):
+        return self.lam
 
-      def variance(self):
-             return self.lam
+    def standard_deviation(self):
+        return self.variance() ** 0.5
 
-      def standard_deviation(self):
-            return self.variance() ** 0.5
+    def cdf(self, k):
+        if not isinstance(k, int):
+            raise TypeError("k should be an integer")
 
-      def cdf(self,k):
-            if not isinstance(k,int):
-                  raise ValueError("K should be an integer")
+        if k < 0:
+            return 0
 
-            if k <0:
-                  return 0
+        total = 0
 
-            total = 0
+        for i in range(k + 1):
+            total += self.pmf(i)
 
-            for i in range(k+1):
-                  total += self.pmf(i)
-
-            return total
-      
+        return total
