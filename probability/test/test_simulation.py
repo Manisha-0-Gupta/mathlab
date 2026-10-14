@@ -1,8 +1,11 @@
 import math
 
+import pytest
+
 from probability.simulations.simulation import (
     confidence_interval,
     estimate_probability,
+    sample,
     simulate,
     standard_error,
 )
@@ -44,3 +47,15 @@ def test_confidence_interval():
     upper = result[1]
     assert math.isclose(lower, 0.402)
     assert math.isclose(upper, 0.598)
+
+
+@pytest.mark.parametrize("n", [0, -1, 2.5, True, False])
+def test_sample_invalid_n(n):
+    with pytest.raises(ValueError):
+        sample(lambda: 0.5, n)
+
+
+@pytest.mark.parametrize("trials", [0, -1, 2.5, True, False])
+def test_simulate_invalid_trials(trials):
+    with pytest.raises(ValueError):
+        simulate(trials, lambda: True)

@@ -7,19 +7,48 @@ def random_number():
     return random.random()
 
 
+# sample
+
+
+def sample(sampler, n):
+    """
+    Draw n values from a sampler.
+
+    sampler: a function that returns one random value each time it is called.
+    Returns a list of n values.
+    """
+    if not isinstance(n, int) or isinstance(n, bool) or n <= 0:
+        raise ValueError("n must be nonzero positive integer")
+
+    values = []
+
+    for _ in range(n):
+        values.append(sampler())
+
+    return values
+
+
 # Simulation engine
 
 
 def simulate(trials, experiment):
-    success_count = 0
+    """
+    Run a yes/no experiment many times.
+
+    experiment: a function that returns True (success) or False.
+    Returns (successes, trials, estimated probability).
+
+    """
+    if not isinstance(trials, int) or isinstance(trials, bool) or trials <= 0:
+        raise ValueError("Trials must be nonzero positive integer")
+
+    successes = 0
 
     for _ in range(trials):
         if experiment():
-            success_count += 1
+            successes += 1
 
-    probability = success_count / trials
-
-    return success_count, trials, probability
+    return successes, trials, estimate_probability(successes, trials)
 
 
 # Statistical Calculation
@@ -42,11 +71,15 @@ def confidence_interval(probability, std_error):
 
 
 def empirical_mean(data):
+    if len(data) == 0:
+        raise ZeroDivisionError("Data is empty")
 
     return sum(data) / len(data)
 
 
 def empirical_variance(data):
+    if len(data) == 0:
+        raise ValueError("Data must not be empty")
     total = 0
     mean = empirical_mean(data)
     for i in range(len(data)):
@@ -56,11 +89,15 @@ def empirical_variance(data):
 
 
 def standard_error_of_mean(data):
+    if len(data) == 0:
+        raise ValueError("Data must not be empty")
     standard_deviation = empirical_variance(data) ** 0.5
     return standard_deviation / (len(data) ** 0.5)
 
 
 def empirical_pmf(data, k):
+    if len(data) == 0:
+        raise ValueError("Data must not be empty")
     hit = 0
     for value in data:
         if value == k:
@@ -70,7 +107,8 @@ def empirical_pmf(data, k):
 
 
 def empirical_cdf(data, k):
-
+    if len(data) == 0:
+        raise ValueError("Data must not be empty")
     hit = 0
     for value in data:
         if value <= k:
