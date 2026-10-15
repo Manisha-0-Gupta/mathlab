@@ -34,7 +34,7 @@ def test_pmf():
     try:
         distribution.pmf(1.5)
         assert False
-    except ValueError:
+    except TypeError:
         assert True
 
     assert math.isclose(distribution.pmf(0), 0.049787068367863944)
@@ -62,3 +62,6 @@ def test_cdf():
     assert math.isclose(distribution.cdf(0), 0.049787068367863944)
     assert math.isclose(distribution.cdf(1), 0.19914827347145578)
     assert math.isclose(distribution.cdf(3), 0.6472318887822313)
+
+
+# ------------------------------------------------------------------------

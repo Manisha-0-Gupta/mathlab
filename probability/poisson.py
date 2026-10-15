@@ -1,18 +1,24 @@
 import math
 
 from probability.utils import factorial
+from probability.validation import (
+    check_integer,
+    check_non_negative_integer,
+    check_real_number,
+)
 
 
 class PoissonDistribution:
     def __init__(self, lam):
+        check_real_number(lam, "lam")
+
         if lam <= 0:
             raise ValueError("Lambda must be greater than 0")
 
         self.lam = lam
 
     def pmf(self, k):
-        if not isinstance(k, int) or k < 0:
-            raise ValueError("K should be non negative integer")
+        check_non_negative_integer(k, "k")
 
         return (math.exp(-self.lam) * (self.lam**k)) / factorial(k)
 
@@ -26,9 +32,7 @@ class PoissonDistribution:
         return self.variance() ** 0.5
 
     def cdf(self, k):
-        if not isinstance(k, int):
-            raise TypeError("k should be an integer")
-
+        check_integer(k, "k")
         if k < 0:
             return 0
 
