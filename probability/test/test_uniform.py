@@ -4,12 +4,9 @@ import random
 import pytest
 
 from probability.simulations.simulation import (
-    confidence_interval,
     empirical_cdf,
     empirical_mean,
-    empirical_pmf,
     empirical_variance,
-    standard_error,
 )
 from probability.simulations.uniform_simulation import (
     interval_event,
