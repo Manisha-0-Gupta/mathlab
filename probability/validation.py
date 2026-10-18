@@ -52,3 +52,11 @@ def check_empty_data(data, name="data"):
     """List or other sequence with at least one item"""
     if len(data) == 0:
         raise ValueError(f"{name} must not be empty")
+
+
+def check_random_value(value, name="random_number"):
+    """Validate a uniform random value in the interval [0, 1)."""
+    check_real_number(value, name)
+
+    if not 0 <= value < 1:
+        raise ValueError(f"{name} must be in [0, 1), got {value}")

@@ -9,6 +9,7 @@ from probability.validation import (
     check_positive_integer,
     check_positive_real_number,
     check_probability_value,
+    check_random_value,
     check_real_number,
 )
 
@@ -144,3 +145,29 @@ def test_check_empty_data_empty(data):
 def test_check_empty_data_custom_name():
     with pytest.raises(ValueError, match="observations must not be empty"):
         check_empty_data([], "observations")
+
+
+# check_random_value
+
+
+@pytest.mark.parametrize("value", [0, 0.5, 0.999999])
+def test_check_random_value_accepts_valid_values(value):
+    check_random_value(value)
+
+
+@pytest.mark.parametrize("value", [-0.1, 1, 1.5])
+def test_check_random_value_rejects_out_of_range_values(value):
+    with pytest.raises(ValueError):
+        check_random_value(value)
+
+
+@pytest.mark.parametrize("value", ["0.5", None, True, False])
+def test_check_random_value_rejects_invalid_types(value):
+    with pytest.raises(TypeError):
+        check_random_value(value)
+
+
+@pytest.mark.parametrize("value", [float("inf"), float("-inf"), float("nan")])
+def test_check_random_value_rejects_non_finite_values(value):
+    with pytest.raises(ValueError):
+        check_random_value(value)
