@@ -8,7 +8,6 @@ from probability.simulations.geometric_simulation import (
     geometric_sampler,
     geometric_simulation,
     probability_of_success_at_first_or_third_try,
-    success_at_first_or_third_try,
 )
 from probability.simulations.simulation import (
     empirical_cdf,
