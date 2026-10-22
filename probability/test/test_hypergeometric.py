@@ -9,10 +9,10 @@ from probability.simulations.hypergeometric_simulation import (
     hypergeometric_simulation,
 )
 from probability.simulations.simulation import (
-    empirical_mean,
-    empirical_variance,
     empirical_cdf,
+    empirical_mean,
     empirical_pmf,
+    empirical_variance,
 )
 
 
