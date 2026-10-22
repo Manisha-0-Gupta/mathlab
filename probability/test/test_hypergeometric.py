@@ -1,6 +1,19 @@
 import math
+import random
+
+import pytest
 
 from probability.hypergeometric import HyperGeometric
+from probability.simulations.hypergeometric_simulation import (
+    hypergeometric_sampler,
+    hypergeometric_simulation,
+)
+from probability.simulations.simulation import (
+    empirical_mean,
+    empirical_variance,
+    empirical_cdf,
+    empirical_pmf,
+)
 
 
 def test_valid_parameters():
@@ -136,3 +149,86 @@ def test_cdf_boundaries():
         assert False
     except TypeError:
         assert True
+
+
+"""---------------------------------------------------------------------------------------------------------"""
+"""TEST-HYPERGEOMETRIC-SIMULATION"""
+"""---------------------------------------------------------------------------------------------------------"""
+
+
+def test_hypergeometric_sampler():
+    # All three draws are red.
+    values = iter([0.1, 0.1, 0.1])
+    assert hypergeometric_sampler(10, 4, 3, lambda: next(values)) == 3
+
+    # First draw is blue, second is red, third is blue.
+    values = iter([0.8, 0.1, 0.8])
+    assert hypergeometric_sampler(10, 4, 3, lambda: next(values)) == 1
+
+    # Zero draws means zero successes.
+    assert hypergeometric_sampler(10, 4, 0, lambda: 0.5) == 0
+
+    # No successes exist in the population.
+    assert hypergeometric_sampler(10, 0, 3, lambda: 0.5) == 0
+
+
+def test_hypergeometric_sampler_invalid_parameters():
+    invalid_cases = [
+        (0, 0, 0),  # N must be positive
+        (10, -1, 3),  # K cannot be negative
+        (10, 11, 3),  # K cannot exceed N
+        (10, 4, -1),  # n cannot be negative
+        (10, 4, 11),  # n cannot exceed N
+    ]
+
+    for N, K, n in invalid_cases:
+        with pytest.raises((TypeError, ValueError)):
+            hypergeometric_sampler(N, K, n, lambda: 0.5)
+
+
+def test_hypergeometric_sampler_rejects_non_integer_parameters():
+    invalid_cases = [
+        (10.5, 4, 3),
+        (10, 2.5, 3),
+        (10, 4, 1.5),
+        (True, 1, 1),
+        (10, False, 1),
+        (10, 4, True),
+    ]
+
+    for N, K, n in invalid_cases:
+        with pytest.raises((TypeError, ValueError)):
+            hypergeometric_sampler(N, K, n, lambda: 0.5)
+
+
+@pytest.mark.parametrize("u", [-0.1, 1, 1.5, float("inf"), float("nan"), "0.5", True])
+def test_hypergeometric_sampler_invalid_random_value(u):
+    with pytest.raises((TypeError, ValueError)):
+        hypergeometric_sampler(10, 4, 3, lambda: u)
+
+
+def test_hypergeometric_simulation():
+    rng = iter([0.1, 0.8, 0.1, 0.8, 0.8, 0.1])
+    result = hypergeometric_simulation(2, 10, 4, 3, random_number=lambda: next(rng))
+
+    assert result == [2, 1]
+
+
+def test_hypergeometric_simulation_invalid_trials():
+    with pytest.raises((TypeError, ValueError)):
+        hypergeometric_simulation(0, 10, 4, 3, random_number=lambda: 0.5)
+
+
+def test_hypergeometric_simulation_statistical_properties():
+    rng = random.Random(42)
+    hg_d = HyperGeometric(10, 4, 3)
+    data = hypergeometric_simulation(10_000, 10, 4, 3, random_number=rng.random)
+
+    assert math.isclose(empirical_mean(data), hg_d.expected_value(), abs_tol=0.05)
+    assert math.isclose(empirical_variance(data), hg_d.variance(), abs_tol=0.05)
+
+    # P(X = 2) = 0.3 for N=10, K=4, n=3.
+    assert math.isclose(empirical_pmf(data, 2), hg_d.pmf(2), abs_tol=0.03)
+
+    # P(X<=2) for N = 10, K=4, n=3
+    assert math.isclose(empirical_cdf(data, 2), hg_d.cdf(2), abs_tol=0.03)
