@@ -1,7 +1,7 @@
 import math
 import random
 
-from probability.binomial import BinomialDistribution
+from probability.distributions.binomial import BinomialDistribution
 from probability.simulations.binomial_simulation import (
     binomial_event,
     binomial_simulation,

@@ -3,7 +3,7 @@ import random
 
 import pytest
 
-from probability.geometric import GeometricDistribution
+from probability.distributions.geometric import GeometricDistribution
 from probability.simulations.geometric_simulation import (
     geometric_sampler,
     geometric_simulation,

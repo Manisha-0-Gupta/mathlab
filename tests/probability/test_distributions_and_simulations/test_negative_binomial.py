@@ -3,7 +3,7 @@ import random
 
 import pytest
 
-from probability.negative_binomial import NegativeBinomial
+from probability.distributions.negative_binomial import NegativeBinomial
 from probability.simulations.negative_binomial_simulation import (
     negative_binomial_sampler,
     negative_binomial_simulation,

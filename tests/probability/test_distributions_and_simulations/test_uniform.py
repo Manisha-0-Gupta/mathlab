@@ -3,6 +3,7 @@ import random
 
 import pytest
 
+from probability.distributions.uniform import UniformDistribution
 from probability.simulations.simulation import (
     empirical_cdf,
     empirical_mean,
@@ -14,7 +15,6 @@ from probability.simulations.uniform_simulation import (
     uniform_sampler,
     uniform_simulation,
 )
-from probability.uniform import UniformDistribution
 
 
 def test_valid_interval():

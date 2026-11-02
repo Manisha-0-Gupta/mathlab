@@ -1,6 +1,6 @@
 import math
 
-from probability.exponential import ExponentialDistribution
+from probability.distributions.exponential import ExponentialDistribution
 
 
 def test_valid_parameters():

@@ -3,7 +3,7 @@ import random
 
 import pytest
 
-from probability.hypergeometric import HyperGeometric
+from probability.distributions.hypergeometric import HyperGeometric
 from probability.simulations.hypergeometric_simulation import (
     hypergeometric_sampler,
     hypergeometric_simulation,

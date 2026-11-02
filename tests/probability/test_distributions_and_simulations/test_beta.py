@@ -1,6 +1,6 @@
 import math
 
-from probability.beta import BetaDistribution
+from probability.distributions.beta import BetaDistribution
 
 
 def test_valid_parameters():

@@ -1,6 +1,6 @@
 import math
 
-from probability.normal import NormalDistribution
+from probability.distributions.normal import NormalDistribution
 
 
 def test_valid_parameters():

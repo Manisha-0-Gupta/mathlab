@@ -1,6 +1,6 @@
 import math
 
-from probability.gamma import GammaDistribution
+from probability.distributions.gamma import GammaDistribution
 
 
 def test_valid_parameters():

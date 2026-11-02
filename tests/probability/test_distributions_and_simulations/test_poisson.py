@@ -3,7 +3,7 @@ import random
 
 import pytest
 
-from probability.poisson import PoissonDistribution
+from probability.distributions.poisson import PoissonDistribution
 from probability.simulations.poisson_simulation import (
     poisson_sampler,
     poisson_simulation,
