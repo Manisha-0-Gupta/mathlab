@@ -8,6 +8,7 @@ from probability.simulations.simulation import (
     sample,
     simulate,
     standard_error,
+    sample_variance,
 )
 
 
@@ -59,3 +60,16 @@ def test_sample_invalid_n(n):
 def test_simulate_invalid_trials(trials):
     with pytest.raises(ValueError):
         simulate(trials, lambda: True)
+
+
+def test_sample_variance():
+
+    assert sample_variance([2, 4, 6]) == 4.0
+    assert sample_variance([5, 5, 5]) == 0.0
+    assert sample_variance([1, 2]) == 0.5
+
+    with pytest.raises(ValueError):
+        sample_variance([])
+
+    with pytest.raises(ValueError):
+        sample_variance([5])

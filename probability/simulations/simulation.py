@@ -88,6 +88,18 @@ def empirical_variance(data):
     return total / len(data)
 
 
+def sample_variance(data):
+
+    if len(data) < 2:
+        raise ValueError("At least two observations are required")
+
+    total = 0
+    mean = empirical_mean(data)
+    for i in range(len(data)):
+        total += (data[i] - mean) ** 2
+    return total / (len(data) - 1)
+
+
 def standard_error_of_mean(data):
     if len(data) == 0:
         raise ValueError("Data must not be empty")
